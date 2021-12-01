@@ -1,29 +1,7 @@
 /*
-  Optical SP02 Detection (SPK Algorithm) using the MAX30105 Breakout
-  By: Nathan Seidle @ SparkFun Electronics
-  Date: October 19th, 2016
-  https://github.com/sparkfun/MAX30105_Breakout
-
-  This demo shows heart rate and SPO2 levels.
-
-  It is best to attach the sensor to your finger using a rubber band or other tightening 
-  device. Humans are generally bad at applying constant pressure to a thing. When you 
-  press your finger against the sensor it varies enough to cause the blood in your 
-  finger to flow differently which causes the sensor readings to go wonky.
-
-  This example is based on MAXREFDES117 and RD117_LILYPAD.ino from Maxim. Their example
-  was modified to work with the SparkFun MAX30105 library and to compile under Arduino 1.6.11
-  Please see license file for more info.
-
-  Hardware Connections (Breakoutboard to Arduino):
-  -5V = 5V (3.3V is allowed)
-  -GND = GND
-  -SDA = A4 (or SDA)
-  -SCL = A5 (or SCL)
-  -INT = Not connected
- 
-  The MAX30105 Breakout can handle 5V or 3.3V I2C logic. We recommend powering the board with 5V
-  but it will also run at 3.3V.
+ * This is the server part of the Project
+ * This code proceed the dât received from the sensor input, analyze it and send it to the receiver by the Wi-Fi module
+ * The data will be changed into the array of ints for the purpose of sending to the peripheral
 */
 #include <LiquidCrystal.h>
 #include <Wire.h>
@@ -140,13 +118,13 @@ void displayMessage(String s1, String s2){
  * Code for data transmitting by Wifi
  **************************************/
 void setupWifi() {
-  // put your setup code here, to run once:
+  // code to set up and process the transmitter part of the wifi module
   radio.begin();
   radio.setAutoAck(1);               
   radio.setRetries(15,15);             
-  radio.setDataRate(RF24_2MBPS);    // Tốc độ truyền
-  radio.setPALevel(RF24_PA_MAX);      // Dung lượng tối đa
-  radio.setChannel(10);               // Đặt kênh
+  radio.setDataRate(RF24_2MBPS);
+  radio.setPALevel(RF24_PA_MAX);
+  radio.setChannel(10);
   radio.openWritingPipe(address); 
   radio.stopListening();
 }
